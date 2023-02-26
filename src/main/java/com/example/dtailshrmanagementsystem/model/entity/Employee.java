@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "employee")
-public class Employee {
+@Table(name = "employees")
+public class Employee extends BaseEntity{
 
     private Long id;
     private String firstName;
@@ -22,11 +22,13 @@ public class Employee {
     private String workEmail;
     private LocalDate dateLeft;
 
-    public Employee(Long id, String firstName, String lastName, String initials, LocalDate dateOfBirth, String nationalInsuranceNumber, LocalDate continuousServiceDate, String workEmail, LocalDate dateLeft){
-        this.id = id;
+    public Employee() {
+
+    }
+
+    public Employee( String firstName, String lastName,LocalDate dateOfBirth, String nationalInsuranceNumber, LocalDate continuousServiceDate, String workEmail, LocalDate dateLeft){
         this.firstName = firstName;
         this.lastName = lastName;
-        this.initials = initials;
         this.dateOfBirth = dateOfBirth;
         this.nationalInsuranceNumber = nationalInsuranceNumber;
         this.continuousServiceDate = continuousServiceDate;
@@ -35,22 +37,7 @@ public class Employee {
 
     }
 
-    public Employee() {
-
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     public String getFirstName() {
         return firstName;
     }
@@ -59,7 +46,7 @@ public class Employee {
         this.firstName = firstName;
     }
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     public String getLastName() {
         return lastName;
     }
@@ -77,7 +64,7 @@ public class Employee {
         this.initials = initials;
     }
 
-    @Column(name = "date_of_birth")
+    @Column(name = "date_of_birth", nullable = false)
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -86,7 +73,25 @@ public class Employee {
         this.dateOfBirth = dateOfBirth;
     }
 
-    @Column(name = "NINo")
+    @Column(name = "age_years")
+    public int getAgeYears() {
+        return ageYears;
+    }
+
+    public void setAgeYears(int ageYears) {
+        this.ageYears = ageYears;
+    }
+
+    @Column(name = "age_months")
+    public int getAgeMonths() {
+        return ageMonths;
+    }
+
+    public void setAgeMonths(int ageMonths) {
+        this.ageMonths = ageMonths;
+    }
+
+    @Column(name = "NINo", nullable = false)
     public String getNationalInsuranceNumber() {
         return nationalInsuranceNumber;
     }
@@ -95,7 +100,7 @@ public class Employee {
         this.nationalInsuranceNumber = nationalInsuranceNumber;
     }
 
-    @Column(name = "continuous_service_date")
+    @Column(name = "continuous_service_date", nullable = false)
     public LocalDate getContinuousServiceDate() {
         return continuousServiceDate;
     }
@@ -103,8 +108,24 @@ public class Employee {
     public void setContinuousServiceDate(LocalDate continuousServiceDate) {
         this.continuousServiceDate = continuousServiceDate;
     }
+    @Column(name = "length_of_service_years")
+    public int getLengthOfServiceYears() {
+        return lengthOfServiceYears;
+    }
 
-    @Column(name = "work_email_address")
+    public void setLengthOfServiceYears(int lengthOfServiceYears) {
+        this.lengthOfServiceYears = lengthOfServiceYears;
+    }
+    @Column(name = "length_of_service_months")
+    public int getLengthOfServiceMonths() {
+        return lengthOfServiceMonths;
+    }
+
+    public void setLengthOfServiceMonths(int lengthOfServiceMonths) {
+        this.lengthOfServiceMonths = lengthOfServiceMonths;
+    }
+
+    @Column(name = "work_email_address", nullable = false)
     public String getWorkEmail() {
         return workEmail;
     }
