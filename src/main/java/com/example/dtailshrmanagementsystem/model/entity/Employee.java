@@ -5,8 +5,12 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "employee")
+@Table(name = "employees")
 public class Employee {
+
+    public Employee() {
+
+    }
 
     private Long id;
     private String firstName;
@@ -32,10 +36,6 @@ public class Employee {
         this.continuousServiceDate = continuousServiceDate;
         this.workEmail = workEmail;
         this.dateLeft = dateLeft;
-
-    }
-
-    public Employee() {
 
     }
 
@@ -86,6 +86,24 @@ public class Employee {
         this.dateOfBirth = dateOfBirth;
     }
 
+    @Column(name = "age_years")
+    public int getAgeYears() {
+        return ageYears;
+    }
+
+    public void setAgeYears(int ageYears) {
+        this.ageYears = ageYears;
+    }
+
+    @Column(name = "age_months")
+    public int getAgeMonths() {
+        return ageMonths;
+    }
+
+    public void setAgeMonths(int ageMonths) {
+        this.ageMonths = ageMonths;
+    }
+
     @Column(name = "NINo")
     public String getNationalInsuranceNumber() {
         return nationalInsuranceNumber;
@@ -102,6 +120,22 @@ public class Employee {
 
     public void setContinuousServiceDate(LocalDate continuousServiceDate) {
         this.continuousServiceDate = continuousServiceDate;
+    }
+    @Column(name = "length_of_service_years")
+    public int getLengthOfServiceYears() {
+        return lengthOfServiceYears;
+    }
+
+    public void setLengthOfServiceYears(int lengthOfServiceYears) {
+        this.lengthOfServiceYears = lengthOfServiceYears;
+    }
+    @Column(name = "length_of_service_months")
+    public int getLengthOfServiceMonths() {
+        return lengthOfServiceMonths;
+    }
+
+    public void setLengthOfServiceMonths(int lengthOfServiceMonths) {
+        this.lengthOfServiceMonths = lengthOfServiceMonths;
     }
 
     @Column(name = "work_email_address")
