@@ -1,8 +1,12 @@
 package com.example.dtailshrmanagementsystem.model.entity;
 
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
+import java.time.Period;
 
 @Entity
 @Table(name = "employees")
@@ -29,15 +33,54 @@ public class Employee extends BaseEntity{
     public Employee( String firstName, String lastName,LocalDate dateOfBirth, String nationalInsuranceNumber, LocalDate continuousServiceDate, String workEmail, LocalDate dateLeft){
         this.firstName = firstName;
         this.lastName = lastName;
+        this.initials = calculateInitials(firstName, lastName);
         this.dateOfBirth = dateOfBirth;
+        this.ageYears = calculateAgeYears(dateOfBirth);
+        this.ageMonths = calculateAgeMonths(dateOfBirth);
         this.nationalInsuranceNumber = nationalInsuranceNumber;
         this.continuousServiceDate = continuousServiceDate;
+        this.lengthOfServiceYears = calculateLengthOfServiceYears(continuousServiceDate);
+        this.lengthOfServiceMonths = calculateLengthOfServiceMonths(continuousServiceDate);
         this.workEmail = workEmail;
         this.dateLeft = dateLeft;
 
     }
 
-    @Column(name = "first_name", nullable = false)
+    private int calculateLengthOfServiceMonths(LocalDate continuousServiceDate) {
+        LocalDate dateToday = LocalDate.now();
+
+        return Period.between(continuousServiceDate, dateToday).getMonths();
+    }
+
+    private int calculateLengthOfServiceYears(LocalDate continuousServiceDate) {
+        LocalDate dateToday = LocalDate.now();
+
+        return Period.between(continuousServiceDate, dateToday).getYears();
+    }
+
+    private int calculateAgeMonths(LocalDate dateOfBirth) {
+        LocalDate dateToday = LocalDate.now();
+
+        return Period.between(dateOfBirth, dateToday).getMonths();
+    }
+
+    private int calculateAgeYears(LocalDate dateOfBirth) {
+        LocalDate dateToday = LocalDate.now();
+
+        return Period.between(dateOfBirth, dateToday).getYears();
+    }
+
+    private String calculateInitials(String firstName, String lastName) {
+        StringBuilder initials = new StringBuilder();
+
+        initials.append(Character.toUpperCase(firstName.charAt(0)));
+        initials.append(Character.toUpperCase(lastName.charAt(0)));
+
+        return initials.toString();
+    }
+
+    @Column(name = "first_name", columnDefinition = "VARCHAR(50) NOT NULL", nullable = false)
+    @Pattern(regexp = "^[A-Z][a-z]*$")
     public String getFirstName() {
         return firstName;
     }
@@ -46,7 +89,7 @@ public class Employee extends BaseEntity{
         this.firstName = firstName;
     }
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", columnDefinition = "VARCHAR(50) NOT NULL", nullable = false)
     public String getLastName() {
         return lastName;
     }
@@ -56,6 +99,7 @@ public class Employee extends BaseEntity{
     }
 
     @Column(name = "initials")
+    @Pattern(regexp="[A-Z]{2}")
     public String getInitials() {
         return initials;
     }
@@ -65,6 +109,7 @@ public class Employee extends BaseEntity{
     }
 
     @Column(name = "date_of_birth", nullable = false)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -101,6 +146,7 @@ public class Employee extends BaseEntity{
     }
 
     @Column(name = "continuous_service_date", nullable = false)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     public LocalDate getContinuousServiceDate() {
         return continuousServiceDate;
     }

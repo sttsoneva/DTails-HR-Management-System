@@ -17,7 +17,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void addNewEmployee() {
-        Employee testEmployee = new Employee("Fred", "Flintstone", LocalDate.of(1987,10,19), "SS587259S",LocalDate.of(2022,01,01),"f.flintstone@myworkemail.com", null);
+        Employee testEmployee = new Employee("Fred", "Flintstone", LocalDate.of(1987, 10, 19), "SS587259S",LocalDate.of(2021,04,23),"f.flintstone@myworkemail.com", null);
 
         employeeRepository.save(testEmployee);
     }
