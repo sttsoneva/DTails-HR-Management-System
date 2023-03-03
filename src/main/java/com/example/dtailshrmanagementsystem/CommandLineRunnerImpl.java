@@ -17,9 +17,9 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     public void run(String... args) throws Exception {
         addEmployee();
     }
-    private void addEmployee(){
+
+    private void addEmployee() {
         employeeService.addNewEmployee();
     }
-
 
 }

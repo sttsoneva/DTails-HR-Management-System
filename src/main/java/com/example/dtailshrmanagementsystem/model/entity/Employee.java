@@ -1,7 +1,6 @@
 package com.example.dtailshrmanagementsystem.model.entity;
 
 import jakarta.persistence.*;
-import org.springframework.cglib.core.Local;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Pattern;
@@ -9,8 +8,10 @@ import java.time.LocalDate;
 import java.time.Period;
 
 @Entity
-@Table(name = "employees")
-public class Employee extends BaseEntity{
+@Table(name = "employees", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"NINo", "work_email_address"})
+})
+public class Employee extends BaseEntity {
 
     private Long id;
     private String firstName;
@@ -26,11 +27,12 @@ public class Employee extends BaseEntity{
     private String workEmail;
     private LocalDate dateLeft;
 
-    public Employee() {
+    private HomeAddress homeAddress;
 
-    }
+    public Employee(){};
 
-    public Employee( String firstName, String lastName,LocalDate dateOfBirth, String nationalInsuranceNumber, LocalDate continuousServiceDate, String workEmail, LocalDate dateLeft){
+
+    public Employee(String firstName, String lastName, LocalDate dateOfBirth, String nationalInsuranceNumber, LocalDate continuousServiceDate, String workEmail, LocalDate dateLeft, HomeAddress homeAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.initials = calculateInitials(firstName, lastName);
@@ -43,7 +45,7 @@ public class Employee extends BaseEntity{
         this.lengthOfServiceMonths = calculateLengthOfServiceMonths(continuousServiceDate);
         this.workEmail = workEmail;
         this.dateLeft = dateLeft;
-
+        this.homeAddress = homeAddress;
     }
 
     private int calculateLengthOfServiceMonths(LocalDate continuousServiceDate) {
@@ -99,7 +101,7 @@ public class Employee extends BaseEntity{
     }
 
     @Column(name = "initials")
-    @Pattern(regexp="[A-Z]{2}")
+    @Pattern(regexp = "[A-Z]{2}")
     public String getInitials() {
         return initials;
     }
@@ -154,6 +156,7 @@ public class Employee extends BaseEntity{
     public void setContinuousServiceDate(LocalDate continuousServiceDate) {
         this.continuousServiceDate = continuousServiceDate;
     }
+
     @Column(name = "length_of_service_years")
     public int getLengthOfServiceYears() {
         return lengthOfServiceYears;
@@ -162,6 +165,7 @@ public class Employee extends BaseEntity{
     public void setLengthOfServiceYears(int lengthOfServiceYears) {
         this.lengthOfServiceYears = lengthOfServiceYears;
     }
+
     @Column(name = "length_of_service_months")
     public int getLengthOfServiceMonths() {
         return lengthOfServiceMonths;
@@ -189,4 +193,12 @@ public class Employee extends BaseEntity{
         this.dateLeft = dateLeft;
     }
 
+    @OneToOne
+    public HomeAddress getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(HomeAddress homeAddress) {
+        this.homeAddress = homeAddress;
+    }
 }
