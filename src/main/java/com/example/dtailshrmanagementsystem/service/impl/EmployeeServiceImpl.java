@@ -87,6 +87,17 @@ public class EmployeeServiceImpl implements EmployeeService {
                 System.out.println("Invalid date format, please try again");
             }
         }
+
+        while (date.isAfter(LocalDate.now())) {
+            System.out.println("Date cannot be in the future. Please enter a valid date");
+            try {
+                String input = scan.nextLine();
+                date = LocalDate.parse(input);
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format, please try again");
+            }
+        }
+
         return date;
     }
 }
